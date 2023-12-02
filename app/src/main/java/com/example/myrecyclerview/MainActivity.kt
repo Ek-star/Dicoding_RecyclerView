@@ -2,6 +2,10 @@ package com.example.myrecyclerview
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
+import android.widget.Toast
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
@@ -59,6 +63,46 @@ class MainActivity : AppCompatActivity() {
         // Catatan untuk nomor (16): Variabel parent didapat dari parameter yang ada pada fungsi onCreateViewHolder. Apabila hasil generate pada Android Studio Anda berbeda (misal viewGroup, bukan parent). Silakan sesuaikan saja dengan parameternya atau nama variabelnya.
         // 17. Kemudian kita modifikasi berkas kelas MainActivity dan atur fixed size RecyclerView yang sudah dibuat di activity_main.
         // 18. Selanjutnya setelah diinisiasikan, kita akan panggil data yang sudah kita buat di resource strings.xml.
+
+        // Selanjutnya Masuk untuk Latihan OnClick pada Item RecyclerView
+        // 1. Bukalah kelas ListHeroAdapter dan perhatikan kode berikut. Pada bagian ini, kita bisa menambahkan fungsi onclick setiap itemnya ditekan. Tambahkan kode baris berikut ke dalam fungsi onBindViewHolder.
+        // 2. Pertanyaan selanjutnya, bagaimana jika kita ingin agar fungsi onClick dapat dipicu atau di-trigger dari kelas MainActivity? Silakan hapus fungsi onClick yang telah Anda buat sebelumnya, kemudian tambahkan interface berikut dan implementasikan onClickke kelas interface berikut.
+
+        // Selanjutnya Masuk untuk Latihan mengubah tampilan pada RecyclerView
+        // # Anda juga bisa mengubah tampilan List menjadi mode Grid. Namun sebelum itu, buat terlebih dahulu menu untuk menampilkan opsi tampilan pada App Bar. Ikut beberapa langkah berikut untuk melakukannya.
+
+        // 1. Langkah pertama yang perlu Anda lakukan adalah mengubah tema bawaan dari NoActionBar. Mengapa mengganti tema? Sebab, kita akan menambahkan option menu pada halaman Activity. Bukalah berkas themes.xml di res/values/themes, baik untuk mode siang dan malam. Setelah itu, hapus bagian .NoActionBarpada tema utama aplikasi.
+
+        // 2. Selanjutnya buat resource directory terkait. Resource directory menu secara bawaan tidak disediakan. Kita harus membuatnya terlebih dahulu. Klik kanan pada direktori res → new → Android Resource Directory.
+
+        // 3. Setelah muncul dialog box seperti di bawah ini, ganti Resource type menjadi menu dan tekan OK.
+
+        // 4. Kemudian klik kanan pada folder menu → New → Menu Resource File.
+
+        // 5. Beri nama menu_main pada File name dan pilih OK.
+
+        // 6. Setelah itu, tambahkan pilihan menu pada menu_main.xml
+
+        // 7. Setelah selesai, saatnya kita pasang menu tersebut di MainActivity dengan menambahkan metode fungsi onCreateOptionsMenu. Untuk menambahkannya, ketik onCreateOptionMenu di dalam MainActivity sehingga snippet akan muncul untuk meng-override fungsi yang sesuai.
+
+        // 8. Saat ini belum ada perubahan ketika menu dipilih. Kita akan menambahkan aksi dengan menambahkan fungsi onOptionsItemSelected pada MainActivity
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_main, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.action_list -> {
+                rvHeroes.layoutManager = LinearLayoutManager(this)
+            }
+            R.id.action_grid -> {
+                rvHeroes.layoutManager = GridLayoutManager(this, 2)
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     private fun getListHeroes(): ArrayList<Hero> {
@@ -77,5 +121,15 @@ class MainActivity : AppCompatActivity() {
         rvHeroes.layoutManager = LinearLayoutManager(this)
         val listHeroAdapter = ListHeroAdapter(list)
         rvHeroes.adapter = listHeroAdapter
+
+        listHeroAdapter.setOnItemClickCallback(object : ListHeroAdapter.OnItemClickCallback {
+            override fun onItemClicked(data: Hero) {
+                showSelectedHero(data)
+            }
+        })
+
+    }
+    private fun showSelectedHero(hero: Hero) {
+        Toast.makeText(this, "Kamu memilih " + hero.name, Toast.LENGTH_SHORT).show()
     }
 }
