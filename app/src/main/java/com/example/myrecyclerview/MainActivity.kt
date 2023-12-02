@@ -59,7 +59,6 @@ class MainActivity : AppCompatActivity() {
         // Catatan untuk nomor (16): Variabel parent didapat dari parameter yang ada pada fungsi onCreateViewHolder. Apabila hasil generate pada Android Studio Anda berbeda (misal viewGroup, bukan parent). Silakan sesuaikan saja dengan parameternya atau nama variabelnya.
         // 17. Kemudian kita modifikasi berkas kelas MainActivity dan atur fixed size RecyclerView yang sudah dibuat di activity_main.
         // 18. Selanjutnya setelah diinisiasikan, kita akan panggil data yang sudah kita buat di resource strings.xml.
-        // 19. 
     }
 
     private fun getListHeroes(): ArrayList<Hero> {
@@ -79,6 +78,4 @@ class MainActivity : AppCompatActivity() {
         val listHeroAdapter = ListHeroAdapter(list)
         rvHeroes.adapter = listHeroAdapter
     }
-
-
 }
